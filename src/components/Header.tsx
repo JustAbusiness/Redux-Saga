@@ -24,9 +24,9 @@ function Header() {
           <Navbar.Toggle />
           <Form>
             <Form.Check
-              value={mode}
-              onChange={() =>
-                dispatch(changeMode(mode === "light" ? "dark" : "light"))
+              defaultChecked={mode === "light" ? false : true}
+              onChange={(e) =>
+                dispatch(changeMode(e.target.checked ===  true ? "dark": "light"))
               }
               type="switch"
               id="custom-switch"
