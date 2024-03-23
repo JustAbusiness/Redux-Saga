@@ -1,11 +1,20 @@
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { changeMode } from "../redux/app/app.slide";
 
 function Header() {
-  const [mode, setMode] = useState<string>("light");
+  const mode = useAppSelector((state) => state.app.mode);
+  const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    const body = document.querySelector("body");
+    if (body) {
+      body.setAttribute("data-bs-theme", mode);
+    }
+  }, [mode])
 
   return (
     <div>
@@ -16,10 +25,18 @@ function Header() {
           <Form>
             <Form.Check
               value={mode}
-              onChange={() => setMode(mode === "light" ? "dark" : "light")}
+              onChange={() =>
+                dispatch(changeMode(mode === "light" ? "dark" : "light"))
+              }
               type="switch"
               id="custom-switch"
-              label={ mode === "light" ? <Navbar.Text>Light Mode </Navbar.Text> : <Navbar.Text>Dark Mode </Navbar.Text>}
+              label={
+                mode === "light" ? (
+                  <Navbar.Text>Light Mode </Navbar.Text>
+                ) : (
+                  <Navbar.Text>Dark Mode </Navbar.Text>
+                )
+              }
             />
           </Form>
           <Navbar.Collapse className="justify-content-end">
